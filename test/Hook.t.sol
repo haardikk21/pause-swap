@@ -48,6 +48,9 @@ contract HookTest is Test, Deployers {
         uint256 hookToken0BalanceBefore = key.currency0.balanceOf(
             address(hook)
         );
+        uint256 userToken0BalanceBefore = key.currency0.balanceOf(
+            address(this)
+        );
         uint256 userToken1BalanceBefore = key.currency1.balanceOf(
             address(this)
         );
@@ -67,9 +70,11 @@ contract HookTest is Test, Deployers {
         );
 
         uint256 hookToken0BalanceAfter = key.currency0.balanceOf(address(hook));
+        uint256 userToken0BalanceAfter = key.currency0.balanceOf(address(this));
         uint256 userToken1BalanceAfter = key.currency1.balanceOf(address(this));
 
         assertEq(hookToken0BalanceAfter, hookToken0BalanceBefore + 100e18); // hook got all 100 tokens
+        assertEq(userToken0BalanceAfter, userToken0BalanceBefore - 100e18); // user didnt get any token0
         assertEq(userToken1BalanceAfter, userToken1BalanceBefore); // user didnt get any token1
     }
 }
